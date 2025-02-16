@@ -1,0 +1,556 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f8f8f8;
+    border-bottom: 2px solid #aaffaa;
+}
+.hidden {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out;
+}
+#nav-menu {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease-in-out;
+}
+.logo {
+    display: flex;
+    align-items: center;
+}
+.logo img {
+    height: 40px;
+    margin-right: 10px;
+}
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+    margin: 0;
+    padding: 0;
+}
+nav a {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+.resolved-requests {
+    text-align: center;
+    padding: 20px;
+}
+.requests-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+.request-card {
+    background-color: #eaffea;
+    padding: 15px;
+    border-radius: 10px;
+    width: 200px;
+    text-align: center;
+}
+.photo-placeholder {
+    background-color: #ccc;
+    height: 100px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+}
+.total-requests {
+    text-align: center;
+    font-size: 18px;
+    margin: 20px 0;
+}
+footer {
+    background-color: #f8f8f8;
+    padding: 10px;
+    text-align: center;
+    border-top: 2px solid #aaffaa;
+}
+
+/* Стили для формы подачи заявки */
+.submit-request {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+}
+
+.submit-request h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.request-form {
+    background-color: #eaffea;
+    padding: 40px;
+    border-radius: 10px;
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.request-form label {
+    font-weight: bold;
+}
+
+.request-form input,
+.request-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #d4ffce;
+}
+
+.request-form textarea {
+    height: 100px;
+    resize: none;
+}
+
+.request-form input[type="file"] {
+    background-color: white;
+    padding: 5px;
+}
+
+.request-form button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.request-form button:hover {
+    background-color: #45a049;
+}
+
+.requests-container {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.request-card {
+    background-color: #eaffea;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    width: 200px;
+}
+.request-image {
+    background-color: #d3d3d3;
+    width: 100%;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.registration-form {
+    background-color: #eaffea;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+}
+
+.registration-form h2 {
+    text-align: center;
+    color: #333;
+}
+
+.registration-form label {
+    display: block;
+    margin: 10px 0 5px;
+    font-weight: bold;
+}
+
+.registration-form input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #d5fdd5;
+}
+
+.registration-form .checkbox {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.registration-form .checkbox input {
+    margin-right: 10px;
+}
+
+.registration-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+.registration-form button:hover {
+    background-color: #45a049;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.registration-form {
+    background-color: #eaffea;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+}
+
+.registration-form h2 {
+    text-align: center;
+    color: #333;
+}
+
+.registration-form label {
+    display: block;
+    margin: 10px 0 5px;
+    font-weight: bold;
+}
+
+.registration-form input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #d5fdd5;
+}
+
+.registration-form .checkbox {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.registration-form .checkbox input {
+    margin-right: 10px;
+}
+
+.registration-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+.registration-form button:hover {
+    background-color: #45a049;
+}
+
+.registration-form {
+    width: 25%;
+    margin: 0 auto; /* Центрирование формы */
+    padding: 30px;
+    background-color: #eaffea;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.registration-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.registration-form input[type="text"],
+.registration-form input[type="email"],
+.registration-form input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #d4f8d4;
+}
+
+.registration-form .checkbox-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.registration-form .checkbox-container input {
+    margin-right: 10px;
+}
+
+.registration-form button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: #a7a7a7;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.registration-form button:hover {
+    background-color: #7a7a7a;
+}
+
+.login-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60vh;
+}
+.login-form {
+    background-color: #eaffea;
+    padding: 35px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    text-align: center;
+}
+.login-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+.login-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #d4f8d4;
+}
+.login-form button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.login-form button:hover {
+    background-color: #f0f0f0;
+}
+
+.profile-section {
+    max-width: 500px;
+    margin: 20px auto;
+    background-color: #eaffea;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.profile-info p {
+    margin: 10px 0;
+    font-weight: bold;
+}
+.logout-button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+}
+.logout-button:hover {
+    background-color: #f0f0f0;
+}
+.requests {
+    display: flex;
+    justify-content: center;
+    gap: 140px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+.request-card {
+    background-color: #d4f8d4;
+    padding: 20px;
+    border-radius: 10px;
+    width: 180px;
+    text-align: center;
+    margin-bottom: 15px;
+}
+.request-card .photo {
+    background-color: #c0c0c0;
+    width: 100%;
+    height: 100px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#nav-menu {
+    font-size: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Выравниваем влево */
+    padding: 10px;
+    position: relative; /* Убираем absolute */
+}
+
+/* Стили для ссылок в меню */
+#nav-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+#nav-menu ul li {
+    padding: 10px;
+    text-align: left;
+}
+
+#nav-menu ul li a {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+
+/* Бургер-меню скрыто на больших экранах */
+.burger-menu {
+    display: none;
+}
+
+@media (min-width: 721px) {
+    #nav-menu {
+        display: block !important;
+    }
+
+    .burger-menu {
+        display: none;
+    }
+}
+
+@media (max-width: 720px) {
+    .burger-menu {
+        display: block;
+        background: none;
+        border: none;
+        font-size: 30px;
+        cursor: pointer;
+    }
+
+    #nav-menu {
+        position: fixed;
+        top: 100px;
+        right: -1px; /* Прячем за экран */
+        width: 200px;
+        height: 100vh;
+        background: white;
+        border-left: 2px solid #aaffaa;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        padding: 10px;
+        z-index: 1000;
+        transition: left 0.3s ease-in-out; /* Плавное появление */
+    }
+
+    #nav-menu.hidden {
+        left: -250px; /* Остаётся спрятанным */
+    }
+
+    #nav-menu.visible {
+        left: 0; /* Показываем меню */
+    }
+
+    nav {
+        display: none;
+    }
+
+    header {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    nav ul {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .requests-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .request-card {
+        width: 90%;
+        max-width: 300px;
+    }
+
+    .request-form {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .registration-form {
+        width: 60%;
+        padding: 45px;
+    }
+
+    .login-form {
+        width: 60%;
+        padding: 45px;
+    }
+
+    .profile-section {
+        width: 90%;
+        padding: 30px;
+    }
+
+    .requests {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .resolved-requests {
+        padding: 10px;
+    }
+
+    .total-requests {
+        font-size: 16px;
+    }
+
+    footer {
+        font-size: 14px;
+        padding: 5px;
+    }
+}

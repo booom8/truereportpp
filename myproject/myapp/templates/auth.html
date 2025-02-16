@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="{% static 'images/logo.png' %}" alt="True Report">
+            <h1>True report</h1>
+        </div>
+        
+        <button class="burger-menu" id="burger">☰</button>
+    
+        <nav id="nav-menu" class="hidden">
+            <ul>
+                <li><a href="{% url 'createreport' %}">Созданные заявки</a></li>
+                <li><a href="{% url 'report' %}">Подать заявку</a></li>
+                <li><a href="{% url 'login' %}">Вход</a></li>
+                <li><a href="{% url 'auth' %}">Регистрация</a></li>
+                <li><a href="{% url 'lk' %}">Личный кабинет</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <section class="registration-form">
+            <form>
+                <label for="full-name">ФИО</label>
+                <input type="text" id="full-name" name="full-name" required>
+
+                <label for="username">Логин</label>
+                <input type="text" id="username" name="username" required>
+
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="password">Пароль</label>
+                <input type="password" id="password" name="password" required>
+
+                <label for="confirm-password">Повтор пароля</label>
+                <input type="password" id="confirm-password" name="confirm-password" required>
+                
+                <label class="checkbox-containerr">
+                    <input type="checkbox" id="terms" name="terms" required>
+                    Согласие на обработку персональных данных
+                </label>
+                
+                <button type="submit">Зарегистрироваться</button>
+            </form>
+        </section>
+    </main>
+    
+    <footer>
+        <p>Политика конфиденциальности</p>
+    </footer>
+    <script>
+        document.getElementById("burger").addEventListener("click", function () {
+            document.getElementById("nav-menu").classList.toggle("hidden");
+        });
+    </script> 
+</body>
+</html>

@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>True Report</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="{% static 'images/logo.png' %}" alt="True Report">
+            <h1>True report</h1>
+        </div>
+        
+        <button class="burger-menu" id="burger">☰</button>
+    
+        <nav id="nav-menu" class="hidden">
+            <ul>
+                <li><a href="{% url 'createreport' %}">Созданные заявки</a></li>
+                <li><a href="{% url 'report' %}">Подать заявку</a></li>
+                <li><a href="{% url 'login' %}">Вход</a></li>
+                <li><a href="{% url 'auth' %}">Регистрация</a></li>
+                <li><a href="{% url 'lk' %}">Личный кабинет</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="resolved-requests">
+            <h2>Решенные заявки</h2>
+            <div class="requests-container">
+                <div class="request-card">
+                    <div class="photo-placeholder">Фотография</div>
+                    <p>Дата: 123</p>
+                    <p>Название: 123</p>
+                    <p>Категория заявки: 123</p>
+                </div>
+                <div class="request-card">
+                    <div class="photo-placeholder">Фотография</div>
+                    <p>Дата: 123</p>
+                    <p>Название: 123</p>
+                    <p>Категория заявки: 123</p>
+                </div>
+                <div class="request-card">
+                    <div class="photo-placeholder">Фотография</div>
+                    <p>Дата: 123</p>
+                    <p>Название: 123</p>
+                    <p>Категория заявки: 123</p>
+                </div>
+                <div class="request-card">
+                    <div class="photo-placeholder">Фотография</div>
+                    <p>Дата: 123</p>
+                    <p>Название: 123</p>
+                    <p>Категория заявки: 123</p>
+                </div>
+            </div>
+        </section>
+        
+        <p class="total-requests">Количество решенных заявок: 000</p>
+    </main>
+    
+    <footer>
+        <p>Политика конфиденциальности</p>
+    </footer>
+    <script>
+        document.getElementById("burger").addEventListener("click", function () {
+            let menu = document.getElementById("nav-menu");
+    
+            if (menu.classList.contains("hidden")) {
+                menu.classList.remove("hidden");
+                menu.classList.add("visible"); // Показываем справа
+            } else {
+                menu.classList.remove("visible");
+                menu.classList.add("hidden"); // Прячем обратно
+            }
+        });
+    </script>    
+</body>
+</html>

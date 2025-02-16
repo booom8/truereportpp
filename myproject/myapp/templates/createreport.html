@@ -1,0 +1,88 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Созданные заявки</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="{% static 'images/logo.png' %}" alt="True Report">
+            <h1>True report</h1>
+        </div>
+        
+        <button class="burger-menu" id="burger">☰</button>
+    
+        <nav id="nav-menu" class="hidden">
+            <ul>
+                <li><a href="{% url 'createreport' %}">Созданные заявки</a></li>
+                <li><a href="{% url 'report' %}">Подать заявку</a></li>
+                <li><a href="{% url 'login' %}">Вход</a></li>
+                <li><a href="{% url 'auth' %}">Регистрация</a></li>
+                <li><a href="{% url 'lk' %}">Личный кабинет</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <section class="filter-section">
+            <h2>Доступная фильтрация созданных вами заявок:</h2>
+            <form class="filter-form">
+                <label><input type="radio" name="filter" value="new"> Со статусом "Новая"</label>
+                <label><input type="radio" name="filter" value="resolved"> Со статусом "Решенная"</label>
+                <label><input type="radio" name="filter" value="date"> По дате</label>
+            </form>
+        </section>
+
+        <section class="requests-list">
+            <h2>Созданные заявки</h2>
+            <div class="requests-container">
+                <div class="request-card">
+                    <div class="request-image">Фотография</div>
+                    <div class="request-info">
+                        <p>Дата: 123</p>
+                        <p>Название: 132</p>
+                        <p>Категория заявки: 123</p>
+                    </div>
+                </div>
+                <div class="request-card">
+                    <div class="request-image">Фотография</div>
+                    <div class="request-info">
+                        <p>Дата: 123</p>
+                        <p>Название: 132</p>
+                        <p>Категория заявки: 123</p>
+                    </div>
+                </div>
+                <div class="request-card">
+                    <div class="request-image">Фотография</div>
+                    <div class="request-info">
+                        <p>Дата: 123</p>
+                        <p>Название: 132</p>
+                        <p>Категория заявки: 123</p>
+                    </div>
+                </div>
+                <div class="request-card">
+                    <div class="request-image">Фотография</div>
+                    <div class="request-info">
+                        <p>Дата: 123</p>
+                        <p>Название: 132</p>
+                        <p>Категория заявки: 123</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <p>Политика конфиденциальности</p>
+    </footer>
+    <script>
+        document.getElementById("burger").addEventListener("click", function () {
+            document.getElementById("nav-menu").classList.toggle("hidden");
+        });
+    </script> 
+</body>
+</html>
