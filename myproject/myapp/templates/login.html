@@ -21,7 +21,7 @@
                 <li><a href="{% url 'createreport' %}">Созданные заявки</a></li>
                 <li><a href="{% url 'report' %}">Подать заявку</a></li>
                 <li><a href="{% url 'login' %}">Вход</a></li>
-                <li><a href="{% url 'auth' %}">Регистрация</a></li>
+                <li><a href="{% url 'register' %}">Регистрация</a></li>
                 <li><a href="{% url 'lk' %}">Личный кабинет</a></li>
             </ul>
         </nav>
@@ -29,16 +29,13 @@
     
     <main>
         <section class="login-section">
-            <form class="login-form">
-                <h2>Вход</h2>
-                <label for="login">Логин</label>
-                <input type="text" id="login" name="login" required>
-
-                <label for="password">Пароль</label>
-                <input type="password" id="password" name="password" required>
-
+            <h2>Вход</h2>
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
                 <button type="submit">Вход</button>
             </form>
+            <p>Нет аккаунта? <a href="{% url 'register' %}">Регистрация</a></p>
         </section>
     </main>
     

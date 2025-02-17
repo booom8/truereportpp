@@ -20,8 +20,7 @@
             <ul>
                 <li><a href="{% url 'createreport' %}">Созданные заявки</a></li>
                 <li><a href="{% url 'report' %}">Подать заявку</a></li>
-                <li><a href="{% url 'login' %}">Вход</a></li>
-                <li><a href="{% url 'auth' %}">Регистрация</a></li>
+                <li><a href="{% url 'logout' %}">Выход</a></li>
                 <li><a href="{% url 'lk' %}">Личный кабинет</a></li>
             </ul>
         </nav>
@@ -31,46 +30,41 @@
         <section class="profile-section">
             <h2>Личный кабинет</h2>
             <div class="profile-info">
-                <p>Логин: login</p>
-                <p>ФИО: Иванов Иван Иванович</p>
-                <p>Email: email@mail.com</p>
+                <p><strong>Логин:</strong> {{ user.username }}</p>
+                <p><strong>ФИО:</strong> {{ user.first_name }} {{ user.last_name }}</p>
+                <p><strong>Email:</strong> {{ user.email }}</p>
             </div>
-            <button class="logout-button">Выход</button>
+            <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="logout-button">Выход</button>
+            </form>
         </section>
         
         <h3>Созданные заявки</h3>
         <div class="requests">
-            <div class="request-card">
-                <div class="photo">Фотография</div>
-                <p>Дата: 123</p>
-                <p>Название: 132</p>
-                <p>Категория заявки: 123</p>
-            </div>
-            <div class="request-card">
-                <div class="photo">Фотография</div>
-                <p>Дата: 123</p>
-                <p>Название: 132</p>
-                <p>Категория заявки: 123</p>
-            </div>
-            <div class="request-card">
-                <div class="photo">Фотография</div>
-                <p>Дата: 123</p>
-                <p>Название: 132</p>
-                <p>Категория заявки: 123</p>
-            </div>
-            <div class="request-card">
-                <div class="photo">Фотография</div>
-                <p>Дата: 123</p>
-                <p>Название: 132</p>
-                <p>Категория заявки: 123</p>
-            </div>
+            {% for report in reports %}
+                <div class="request-card">
+                    <div class="photo">
+                        {% if report.photo %}
+                            <img src="{{ report.photo.url }}" alt="Фото">
+                        {% else %}
+                            Фотография отсутствует
+                        {% endif %}
+                    </div>
+                    <p><strong>Дата:</strong> {{ report.created_at }}</p>
+                    <p><strong>Название:</strong> {{ report.title }}</p>
+                    <p><strong>Категория заявки:</strong> {{ report.category }}</p>
+                </div>
+            {% empty %}
+                <p>У вас пока нет заявок.</p>
+            {% endfor %}
         </div>
-        <p><a href="report.html">Остальные заявки</a></p>
     </main>
     
     <footer>
         <p>Политика конфиденциальности</p>
     </footer>
+    
     <script>
         document.getElementById("burger").addEventListener("click", function () {
             document.getElementById("nav-menu").classList.toggle("hidden");
