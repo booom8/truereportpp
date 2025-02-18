@@ -58,7 +58,10 @@
                         <div class="request-card">
                             <div class="request-image">
                                 {% if report.photo %}
-                                    <img src="{{ report.photo.url }}" alt="Фото заявки">
+                                    <img src="{{ report.photo.url }}" alt="Фото заявки" class="initial-photo">
+                                    {% if report.resolved_photo %}
+                                        <img src="{{ report.resolved_photo.url }}" alt="Фото после" class="resolved-photo">
+                                    {% endif %}
                                 {% else %}
                                     <p>Фотографии нет</p>
                                 {% endif %}
@@ -68,9 +71,19 @@
                                 <p><strong>Название:</strong> {{ report.title }}</p>
                                 <p><strong>Категория:</strong> {{ report.get_category_display }}</p>
                                 <p><strong>Статус:</strong> {{ report.get_status_display }}</p>
+
+                                {% if request.user.is_staff %}
+                                    <a href="{% url 'update_report' report.id %}" class="edit-button">Редактировать</a> <br><br>
+                                    <form action="{% url 'delete_report' report.id %}" method="post" style="display:inline;">
+                                        {% csrf_token %}
+                                        <button type="submit" class="delete-button">Удалить</button>
+                                    </form>
+                                {% endif %}
                             </div>
                         </div>
-                    {% endfor %}
+                        {% endfor %}
+    </div>
+
                 </div>
             {% else %}
                 <p>Заявок пока нет.</p>

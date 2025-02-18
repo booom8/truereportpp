@@ -148,14 +148,36 @@ footer {
     flex-wrap: wrap;
 }
 .request-image {
-    background-color: #d3d3d3;
+    position: relative;
     width: 100%;
-    height: 120px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 10px;
-    margin-bottom: 10px;
+    height: 150px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+/* Основное фото */
+.request-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* Фото после (изначально скрыто) */
+.request-image .resolved-photo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* При наведении на контейнер фото после становится видимым */
+.request-image:hover .resolved-photo {
+    opacity: 1;
 }
 
 .registration-form {
@@ -499,6 +521,86 @@ footer {
 .logout-button:hover {
     background-color: #cc0000; /* Темнее при наведении */
 }
+/* === Стили для кнопок === */
+.edit-button, .delete-button {
+    display: inline-block;
+    padding: 8px 15px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background 0.3s ease;
+    cursor: pointer;
+}
+
+/* Кнопка "Редактировать" */
+.edit-button {
+    background-color: #fdd835; /* Желтый */
+    color: #333;
+    border: none;
+}
+
+.edit-button:hover {
+    background-color: #fbc02d;
+}
+
+/* Кнопка "Удалить" */
+.delete-button {
+    background-color: #e53935; /* Красный */
+    color: #fff;
+    border: none;
+}
+
+.delete-button:hover {
+    background-color: #c62828;
+}
+
+/* === Стили для страницы редактирования заявки === */
+.update-request {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+    max-width: 400px;
+    margin: 0 auto;
+    background-color: #eaffea;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.update-request h2 {
+    margin-bottom: 20px;
+}
+
+.update-request form {
+    width: 100%;
+}
+
+.update-request input,
+.update-request select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #d4f8d4;
+}
+
+.update-request button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: #4CAF50; /* Зеленый */
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.update-request button:hover {
+    background-color: #45a049;
+}
+
 
 @media (min-width: 721px) {
     #nav-menu {

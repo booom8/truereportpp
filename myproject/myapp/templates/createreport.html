@@ -96,6 +96,9 @@
                             <div class="request-image">
                                 {% if report.photo %}
                                     <img src="{{ report.photo.url }}" alt="Фото заявки">
+                                    {% if report.resolved_photo %}
+                                        <img src="{{ report.resolved_photo.url }}" alt="Фото после" class="resolved-photo">
+                                    {% endif %}
                                 {% else %}
                                     <p>Фотографии нет</p>
                                 {% endif %}
@@ -112,7 +115,7 @@
             {% else %}
                 <p>Заявок пока нет.</p>
             {% endif %}
-        </section>
+        </section>        
     </main>
     <footer>
         <p>Политика конфиденциальности</p>

@@ -1,9 +1,10 @@
-from django.shortcuts import render, redirect
-from .forms import ReportForm, RegisterForm, LoginForm
+from django.shortcuts import render, redirect, get_object_or_404
+from .forms import ReportForm, RegisterForm, LoginForm, ReportUpdateForm, ReportAdminForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from .models import Report
 from django.db import connection
+from django.contrib import messages
 
 def index(request):
     return render(request, 'index.html')
@@ -87,3 +88,57 @@ def createreport(request):
         reports = reports.order_by('-created_at')
 
     return render(request, 'createreport.html', {'reports': reports})
+
+
+def update_report(request, report_id):
+    report = get_object_or_404(Report, id=report_id)
+
+    if request.method == "POST":
+        form = ReportUpdateForm(request.POST, request.FILES, instance=report)
+        if form.is_valid():
+            form.save()
+            return redirect('createreport')  # Перенаправляем на страницу всех заявок
+
+    else:
+        form = ReportUpdateForm(instance=report)
+
+    return render(request, 'update_report.html', {'form': form, 'report': report})
+
+
+@login_required
+def personal_cabinet(request):
+    reports = Report.objects.filter(user=request.user) if not request.user.is_staff else Report.objects.all()
+    return render(request, 'lk.html', {'reports': reports})
+
+@login_required
+def update_report(request, report_id):
+    report = get_object_or_404(Report, id=report_id)
+
+    # Проверяем, что только админ может редактировать заявки
+    if not request.user.is_staff:
+        messages.error(request, "У вас нет прав для редактирования заявки.")
+        return redirect('lk')
+
+    if request.method == "POST":
+        form = ReportAdminForm(request.POST, request.FILES, instance=report)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Заявка успешно обновлена!")
+            return redirect('lk')
+    else:
+        form = ReportAdminForm(instance=report)
+
+    return render(request, 'update_report.html', {'form': form, 'report': report})
+
+@login_required
+def delete_report(request, report_id):
+    report = get_object_or_404(Report, id=report_id)
+
+    # Проверяем, что только админ может удалять заявки
+    if not request.user.is_staff:
+        messages.error(request, "Вы не можете удалить эту заявку.")
+        return redirect('lk')
+
+    report.delete()
+    messages.success(request, "Заявка успешно удалена!")
+    return redirect('lk')

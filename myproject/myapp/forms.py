@@ -30,3 +30,24 @@ class RegisterForm(UserCreationForm):
 class LoginForm(AuthenticationForm):
     username = forms.CharField(label="Логин", widget=forms.TextInput(attrs={'class': 'form-control'}))
     password = forms.CharField(label="Пароль", widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+
+
+class ReportUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Report
+        fields = ['status', 'resolved_photo']
+
+    
+class ReportAdminForm(forms.ModelForm):
+    class Meta:
+        model = Report
+        fields = ['status', 'resolved_photo']
+
+    def clean_status(self):
+        """ Проверяем, можно ли изменить статус на 'Решена' """
+        status = self.cleaned_data.get("status")
+        resolved_photo = self.cleaned_data.get("resolved_photo") or self.instance.resolved_photo
+
+        if status == "resolved" and not resolved_photo:
+            raise forms.ValidationError("Нельзя менять статус на 'Решена' без фото после!")
+        return status
