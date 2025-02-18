@@ -18,10 +18,20 @@
     
         <nav id="nav-menu" class="hidden">
             <ul>
+                <li><a href="{% url 'home' %}">Главная</a></li>
                 <li><a href="{% url 'createreport' %}">Созданные заявки</a></li>
                 <li><a href="{% url 'report' %}">Подать заявку</a></li>
-                <li><a href="{% url 'logout' %}">Выход</a></li>
-                <li><a href="{% url 'lk' %}">Личный кабинет</a></li>
+                
+                {% if request.user.is_authenticated %}
+                    <li><a href="{% url 'lk' %}">Личный кабинет</a></li>
+                    <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="logout-button">Выйти</button>
+                    </form>                   
+                {% else %}
+                    <li><a href="{% url 'login' %}">Вход</a></li>
+                    <li><a href="{% url 'register' %}">Регистрация</a></li>
+                {% endif %}
             </ul>
         </nav>
     </header>
@@ -41,24 +51,31 @@
         </section>
         
         <h3>Созданные заявки</h3>
-        <div class="requests">
-            {% for report in reports %}
-                <div class="request-card">
-                    <div class="photo">
-                        {% if report.photo %}
-                            <img src="{{ report.photo.url }}" alt="Фото">
-                        {% else %}
-                            Фотография отсутствует
-                        {% endif %}
-                    </div>
-                    <p><strong>Дата:</strong> {{ report.created_at }}</p>
-                    <p><strong>Название:</strong> {{ report.title }}</p>
-                    <p><strong>Категория заявки:</strong> {{ report.category }}</p>
+        <section class="requests-list">
+            {% if reports %}
+                <div class="requests-container">
+                    {% for report in reports %}
+                        <div class="request-card">
+                            <div class="request-image">
+                                {% if report.photo %}
+                                    <img src="{{ report.photo.url }}" alt="Фото заявки">
+                                {% else %}
+                                    <p>Фотографии нет</p>
+                                {% endif %}
+                            </div>
+                            <div class="request-info">
+                                <p><strong>Дата:</strong> {{ report.created_at }}</p>
+                                <p><strong>Название:</strong> {{ report.title }}</p>
+                                <p><strong>Категория:</strong> {{ report.get_category_display }}</p>
+                                <p><strong>Статус:</strong> {{ report.get_status_display }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
                 </div>
-            {% empty %}
-                <p>У вас пока нет заявок.</p>
-            {% endfor %}
-        </div>
+            {% else %}
+                <p>Заявок пока нет.</p>
+            {% endif %}
+        </section>
     </main>
     
     <footer>

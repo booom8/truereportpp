@@ -4,23 +4,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>True Report</title>
+    <title>True report</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
     <header>
         <div class="logo">
             <img src="{% static 'images/logo.png' %}" alt="True Report">
-            <h1>True Report</h1>
+            <h1>True report</h1>
         </div>
         <button class="burger-menu" id="burger">☰</button>
         <nav id="nav-menu" class="hidden">
             <ul>
+                <li><a href="{% url 'home' %}">Главная</a></li>
                 <li><a href="{% url 'createreport' %}">Созданные заявки</a></li>
                 <li><a href="{% url 'report' %}">Подать заявку</a></li>
-                <li><a href="{% url 'login' %}">Вход</a></li>
-                <li><a href="{% url 'register' %}">Регистрация</a></li>
-                <li><a href="{% url 'lk' %}">Личный кабинет</a></li>
+                
+                {% if request.user.is_authenticated %}
+                    <li><a href="{% url 'lk' %}">Личный кабинет</a></li>
+                    <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="logout-button">Выйти</button>
+                    </form>                    
+                {% else %}
+                    <li><a href="{% url 'login' %}">Вход</a></li>
+                    <li><a href="{% url 'register' %}">Регистрация</a></li>
+                {% endif %}
             </ul>
         </nav>
     </header>
@@ -30,9 +39,20 @@
             <h2>Подать заявку</h2>
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit">Отправить</button>
-            </form>
+                <label for="id_title">Название</label>
+                {{ form.title }}
+            
+                <label for="id_description">Описание</label>
+                {{ form.description }}
+            
+                <label for="id_category">Категория</label>
+                {{ form.category }}
+            
+                <label for="id_photo">Фото</label>
+                {{ form.photo }}
+            
+                <button type="submit">Отправить заявку</button>
+            </form>            
         </section>
     </main>
 

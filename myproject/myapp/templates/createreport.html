@@ -6,6 +6,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Созданные заявки</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        .requests-container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr); /* 5 карточек в ряд */
+            gap: 20px; /* Отступы между карточками */
+            padding-left: 100px; /* Отступ слева */
+            padding-right: 40px; /* Отступ справа */
+            justify-content: center;
+        }
+
+        .request-card {
+            background-color: #d4f8d4; /* Фон карточек */
+            padding: 20px;
+            border-radius: 10px;
+            width: 240px;
+            text-align: center;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .request-card img {
+            width: 100%;  
+            max-height: 150px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .request-card .request-info {
+            margin-top: 10px;
+        }
+        @media (max-width: 720px) {
+            .requests-container {
+                grid-template-columns: repeat(2, 1fr); /* 2 карточки в ряд */
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -18,71 +56,72 @@
     
         <nav id="nav-menu" class="hidden">
             <ul>
+                <li><a href="{% url 'home' %}">Главная</a></li>
                 <li><a href="{% url 'createreport' %}">Созданные заявки</a></li>
                 <li><a href="{% url 'report' %}">Подать заявку</a></li>
-                <li><a href="{% url 'login' %}">Вход</a></li>
-                <li><a href="{% url 'register' %}">Регистрация</a></li>
-                <li><a href="{% url 'lk' %}">Личный кабинет</a></li>
+                
+                {% if request.user.is_authenticated %}
+                    <li><a href="{% url 'lk' %}">Личный кабинет</a></li>
+                    <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="logout-button">Выйти</button>
+                    </form>                                        
+                {% else %}
+                    <li><a href="{% url 'login' %}">Вход</a></li>
+                    <li><a href="{% url 'register' %}">Регистрация</a></li>
+                {% endif %}
             </ul>
         </nav>
+        
     </header>
     
     <main>
         <section class="filter-section">
-            <h2>Доступная фильтрация созданных вами заявок:</h2>
-            <form class="filter-form">
-                <label><input type="radio" name="filter" value="new"> Со статусом "Новая"</label>
-                <label><input type="radio" name="filter" value="resolved"> Со статусом "Решенная"</label>
-                <label><input type="radio" name="filter" value="date"> По дате</label>
+            <h2>Фильтрация заявок:</h2>
+            <form method="GET" action="{% url 'createreport' %}" class="filter-form">
+                <label><input type="radio" name="status" value="new"> Новые</label>
+                <label><input type="radio" name="status" value="resolved"> Решенные</label>
+                <label><input type="radio" name="status" value="rejected"> Отклоненные</label>
+                <label><input type="radio" name="sort" value="date"> По дате</label>
+                <button type="submit">Применить</button>
             </form>
         </section>
 
         <section class="requests-list">
-            <h2>Созданные заявки</h2>
-            <div class="requests-container">
-                <div class="request-card">
-                    <div class="request-image">Фотография</div>
-                    <div class="request-info">
-                        <p>Дата: 123</p>
-                        <p>Название: 132</p>
-                        <p>Категория заявки: 123</p>
-                    </div>
+            <h2>Все заявки</h2>
+            {% if reports %}
+                <div class="requests-container">
+                    {% for report in reports %}
+                        <div class="request-card">
+                            <div class="request-image">
+                                {% if report.photo %}
+                                    <img src="{{ report.photo.url }}" alt="Фото заявки">
+                                {% else %}
+                                    <p>Фотографии нет</p>
+                                {% endif %}
+                            </div>
+                            <div class="request-info">
+                                <p><strong>Дата:</strong> {{ report.created_at }}</p>
+                                <p><strong>Название:</strong> {{ report.title }}</p>
+                                <p><strong>Категория:</strong> {{ report.get_category_display }}</p>
+                                <p><strong>Статус:</strong> {{ report.get_status_display }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
                 </div>
-                <div class="request-card">
-                    <div class="request-image">Фотография</div>
-                    <div class="request-info">
-                        <p>Дата: 123</p>
-                        <p>Название: 132</p>
-                        <p>Категория заявки: 123</p>
-                    </div>
-                </div>
-                <div class="request-card">
-                    <div class="request-image">Фотография</div>
-                    <div class="request-info">
-                        <p>Дата: 123</p>
-                        <p>Название: 132</p>
-                        <p>Категория заявки: 123</p>
-                    </div>
-                </div>
-                <div class="request-card">
-                    <div class="request-image">Фотография</div>
-                    <div class="request-info">
-                        <p>Дата: 123</p>
-                        <p>Название: 132</p>
-                        <p>Категория заявки: 123</p>
-                    </div>
-                </div>
-            </div>
+            {% else %}
+                <p>Заявок пока нет.</p>
+            {% endif %}
         </section>
     </main>
-    
     <footer>
         <p>Политика конфиденциальности</p>
     </footer>
+
     <script>
         document.getElementById("burger").addEventListener("click", function () {
             document.getElementById("nav-menu").classList.toggle("hidden");
         });
-    </script> 
+    </script>
 </body>
 </html>

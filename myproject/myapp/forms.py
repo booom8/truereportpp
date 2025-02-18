@@ -10,9 +10,10 @@ class ReportForm(forms.ModelForm):
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control'}),
-            'category': forms.TextInput(attrs={'class': 'form-control'}),
-            'photo': forms.FileInput(attrs={'class': 'form-control'}),
+            'category': forms.Select(attrs={'class': 'form-control'}),
+            'photo': forms.ClearableFileInput(attrs={'class': 'form-control'}),
         }
+
 
 
 class RegisterForm(UserCreationForm):

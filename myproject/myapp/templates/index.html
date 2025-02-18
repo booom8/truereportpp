@@ -20,61 +20,68 @@
             <ul>
                 <li><a href="{% url 'createreport' %}">Созданные заявки</a></li>
                 <li><a href="{% url 'report' %}">Подать заявку</a></li>
-                <li><a href="{% url 'login' %}">Вход</a></li>
-                <li><a href="{% url 'register' %}">Регистрация</a></li>
-                <li><a href="{% url 'lk' %}">Личный кабинет</a></li>
+                
+                {% if request.user.is_authenticated %}
+                    <li><a href="{% url 'lk' %}">Личный кабинет</a></li>
+                    <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="logout-button">Выйти</button>
+                    </form>                                        
+                {% else %}
+                    <li><a href="{% url 'login' %}">Вход</a></li>
+                    <li><a href="{% url 'register' %}">Регистрация</a></li>
+                {% endif %}
             </ul>
         </nav>
+        
     </header>
     <main>
         <section class="resolved-requests">
-            <h2>Решенные заявки</h2>
+            <h2>Последние заявки</h2>
             <div class="requests-container">
-                <div class="request-card">
-                    <div class="photo-placeholder">Фотография</div>
-                    <p>Дата: 123</p>
-                    <p>Название: 123</p>
-                    <p>Категория заявки: 123</p>
-                </div>
-                <div class="request-card">
-                    <div class="photo-placeholder">Фотография</div>
-                    <p>Дата: 123</p>
-                    <p>Название: 123</p>
-                    <p>Категория заявки: 123</p>
-                </div>
-                <div class="request-card">
-                    <div class="photo-placeholder">Фотография</div>
-                    <p>Дата: 123</p>
-                    <p>Название: 123</p>
-                    <p>Категория заявки: 123</p>
-                </div>
-                <div class="request-card">
-                    <div class="photo-placeholder">Фотография</div>
-                    <p>Дата: 123</p>
-                    <p>Название: 123</p>
-                    <p>Категория заявки: 123</p>
-                </div>
-            </div>
+                {% for report in latest_reports %}
+                    <div class="request-card">
+                        <div class="photo-placeholder">
+                            {% if report.photo %}
+                                <img src="{{ report.photo.url }}" alt="Фото заявки">
+                            {% else %}
+                                <p>Фотография отсутствует</p>
+                            {% endif %}
+                        </div>
+                        <p>Дата: {{ report.created_at|date:"d.m.Y H:i" }}</p>
+                        <p>Название: {{ report.title }}</p>
+                        <p>Категория заявки: {{ report.get_category_display }}</p>
+                    </div>
+                {% endfor %}
+            </div>            
         </section>
-        
-        <p class="total-requests">Количество решенных заявок: 000</p>
+    
+        <p class="total-requests">Количество решенных заявок: <span id="request-count">{{ total_reports }}</span></p>
     </main>
+    
     
     <footer>
         <p>Политика конфиденциальности</p>
     </footer>
     <script>
-        document.getElementById("burger").addEventListener("click", function () {
-            let menu = document.getElementById("nav-menu");
+        function updateRequestCount() {
+            fetch("{% url 'home' %}")  // Запрашиваем главную
+            .then(response => response.text())
+            .then(html => {
+                let parser = new DOMParser();
+                let doc = parser.parseFromString(html, "text/html");
+                let newCount = doc.querySelector("#request-count").innerText;
+                document.querySelector("#request-count").innerText = newCount;
+            });
+        }
     
-            if (menu.classList.contains("hidden")) {
-                menu.classList.remove("hidden");
-                menu.classList.add("visible"); // Показываем справа
-            } else {
-                menu.classList.remove("visible");
-                menu.classList.add("hidden"); // Прячем обратно
-            }
+        setInterval(updateRequestCount, 10000); // Обновлять раз в 10 секунд
+    </script>
+    
+    <script>
+        document.getElementById("burger").addEventListener("click", function () {
+            document.getElementById("nav-menu").classList.toggle("hidden");
         });
-    </script>    
+    </script>  
 </body>
 </html>

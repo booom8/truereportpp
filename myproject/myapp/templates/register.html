@@ -18,11 +18,20 @@
     
         <nav id="nav-menu" class="hidden">
             <ul>
+                <li><a href="{% url 'home' %}">Главная</a></li>
                 <li><a href="{% url 'createreport' %}">Созданные заявки</a></li>
                 <li><a href="{% url 'report' %}">Подать заявку</a></li>
-                <li><a href="{% url 'login' %}">Вход</a></li>
-                <li><a href="{% url 'register' %}">Регистрация</a></li>
-                <li><a href="{% url 'lk' %}">Личный кабинет</a></li>
+                
+                {% if request.user.is_authenticated %}
+                    <li><a href="{% url 'lk' %}">Личный кабинет</a></li>
+                    <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="logout-button">Выйти</button>
+                    </form>                    
+                {% else %}
+                    <li><a href="{% url 'login' %}">Вход</a></li>
+                    <li><a href="{% url 'register' %}">Регистрация</a></li>
+                {% endif %}
             </ul>
         </nav>
     </header>

@@ -51,20 +51,10 @@ nav a {
     gap: 20px;
     flex-wrap: wrap;
 }
-.request-card {
-    background-color: #eaffea;
-    padding: 15px;
-    border-radius: 10px;
-    width: 200px;
-    text-align: center;
-}
-.photo-placeholder {
-    background-color: #ccc;
-    height: 100px;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.request-card img {
+    width: 100%;  /* Подгоняет ширину под карточку */
+    max-height: 150px; /* Максимальная высота */
+    object-fit: cover; /* Обрезает изображение, сохраняя пропорции */
     border-radius: 5px;
 }
 .total-requests {
@@ -93,66 +83,69 @@ footer {
     margin-bottom: 20px;
 }
 
-.request-form {
+.submit-request form {
     background-color: #eaffea;
     padding: 40px;
     border-radius: 10px;
-    width: 30%;
+    width: 35%;
     display: flex;
     flex-direction: column;
     gap: 15px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.request-form label {
+.submit-request label {
     font-weight: bold;
 }
 
-.request-form input,
-.request-form textarea {
+.submit-request input,
+.submit-request textarea,
+.submit-request select {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
     background-color: #d4ffce;
+    font-size: 16px;
 }
 
-.request-form textarea {
+.submit-request textarea {
     height: 100px;
     resize: none;
 }
 
-.request-form input[type="file"] {
+.submit-request input[type="file"] {
     background-color: white;
     padding: 5px;
 }
 
-.request-form button {
+.submit-request button {
     background-color: #4CAF50;
     color: white;
-    padding: 10px;
+    padding: 12px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 18px;
+    transition: background 0.3s ease-in-out;
 }
 
-.request-form button:hover {
+.submit-request button:hover {
     background-color: #45a049;
+}
+
+/* Адаптивность */
+@media (max-width: 720px) {
+    .submit-request form {
+        width: 80%;
+    }
 }
 
 .requests-container {
     display: flex;
-    gap: 20px;
+    gap: 140px;
     justify-content: center;
     flex-wrap: wrap;
-}
-.request-card {
-    background-color: #eaffea;
-    padding: 15px;
-    border-radius: 10px;
-    text-align: center;
-    width: 200px;
 }
 .request-image {
     background-color: #d3d3d3;
@@ -328,43 +321,85 @@ footer {
 
 .login-section {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
     height: 60vh;
 }
-.login-form {
+
+.login-section h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.login-section form {
     background-color: #eaffea;
     padding: 35px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 400px;
+    width: 350px;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
-.login-form label {
-    display: block;
-    margin-bottom: 5px;
+
+.login-section label {
     font-weight: bold;
+    text-align: left;
+    display: block;
 }
-.login-form input {
+
+.login-section input {
     width: 100%;
     padding: 10px;
-    margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 5px;
     background-color: #d4f8d4;
+    font-size: 16px;
 }
-.login-form button {
+
+.login-section button {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     border: none;
-    background-color: #fff;
+    background-color: #4CAF50;
+    color: white;
     font-weight: bold;
     cursor: pointer;
     border-radius: 5px;
+    font-size: 18px;
+    transition: background 0.3s ease-in-out;
 }
-.login-form button:hover {
-    background-color: #f0f0f0;
+
+.login-section button:hover {
+    background-color: #45a049;
 }
+
+.login-section p {
+    margin-top: 15px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.login-section a {
+    color: #007BFF;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.login-section a:hover {
+    text-decoration: underline;
+}
+
+/* Адаптивность */
+@media (max-width: 720px) {
+    .login-section form {
+        width: 80%;
+    }
+}
+
 
 .profile-section {
     max-width: 500px;
@@ -403,7 +438,7 @@ footer {
     background-color: #d4f8d4;
     padding: 20px;
     border-radius: 10px;
-    width: 180px;
+    width: 220px;
     text-align: center;
     margin-bottom: 15px;
 }
@@ -448,6 +483,21 @@ footer {
 /* Бургер-меню скрыто на больших экранах */
 .burger-menu {
     display: none;
+}
+
+.logout-button {
+    background-color: #ff4d4d; /* Красный цвет */
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease-in-out;
+}
+
+.logout-button:hover {
+    background-color: #cc0000; /* Темнее при наведении */
 }
 
 @media (min-width: 721px) {
@@ -508,6 +558,7 @@ footer {
     .requests-container {
         flex-direction: column;
         align-items: center;
+        gap: 40px;
     }
 
     .request-card {
