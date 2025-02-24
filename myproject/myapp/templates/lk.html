@@ -41,7 +41,6 @@
             <h2>Личный кабинет</h2>
             <div class="profile-info">
                 <p><strong>Логин:</strong> {{ user.username }}</p>
-                <p><strong>ФИО:</strong> {{ user.first_name }} {{ user.last_name }}</p>
                 <p><strong>Email:</strong> {{ user.email }}</p>
             </div>
             <form action="{% url 'logout' %}" method="post">
@@ -51,44 +50,47 @@
         </section>
         
         <h3>Созданные заявки</h3>
-        <section class="requests-list">
-            {% if reports %}
-                <div class="requests-container">
-                    {% for report in reports %}
-                        <div class="request-card">
-                            <div class="request-image">
-                                {% if report.photo %}
-                                    <img src="{{ report.photo.url }}" alt="Фото заявки" class="initial-photo">
-                                    {% if report.resolved_photo %}
-                                        <img src="{{ report.resolved_photo.url }}" alt="Фото после" class="resolved-photo">
-                                    {% endif %}
-                                {% else %}
-                                    <p>Фотографии нет</p>
-                                {% endif %}
-                            </div>
-                            <div class="request-info">
-                                <p><strong>Дата:</strong> {{ report.created_at }}</p>
-                                <p><strong>Название:</strong> {{ report.title }}</p>
-                                <p><strong>Категория:</strong> {{ report.get_category_display }}</p>
-                                <p><strong>Статус:</strong> {{ report.get_status_display }}</p>
-
-                                {% if request.user.is_staff %}
-                                    <a href="{% url 'update_report' report.id %}" class="edit-button">Редактировать</a> <br><br>
-                                    <form action="{% url 'delete_report' report.id %}" method="post" style="display:inline;">
-                                        {% csrf_token %}
-                                        <button type="submit" class="delete-button">Удалить</button>
-                                    </form>
-                                {% endif %}
-                            </div>
-                        </div>
-                        {% endfor %}
-    </div>
-
+<section class="requests-list">
+    {% if reports %}
+        <div class="requests-container">
+            {% for report in reports %}
+                <div class="request-card">
+                    <div class="request-image">
+                        {% if report.resolved_photo %}
+                            <img src="{{ report.resolved_photo.url }}" alt="Фото после">
+                            {% if report.photo %}
+                                <img src="{{ report.photo.url }}" alt="Фото до" class="resolved-photo">
+                            {% endif %}
+                        {% elif report.photo %}
+                            <img src="{{ report.photo.url }}" alt="Фото заявки">
+                        {% else %}
+                            <p>Фотографии нет</p>
+                        {% endif %}
+                    </div>
+                    <div class="request-info">
+                        <p><strong>Дата:</strong> {{ report.created_at }}</p>
+                        <p><strong>Название:</strong> {{ report.title }}</p>
+                        <p><strong>Категория:</strong> {{ report.get_category_display }}</p>
+                        <p><strong>Статус:</strong> {{ report.get_status_display }}</p>
+                        {% if report.status == "rejected" %}
+                            <p><strong>Причина отклонения:</strong> {{ report.rejection_reason }}</p>
+                        {% endif %}
+                        <form action="{% url 'delete_report' report.id %}" method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="delete-button">Удалить</button>
+                        </form> <br> <br>
+                        {% if request.user.is_staff %}
+                            <a href="{% url 'update_report' report.id %}" class="edit-button">Редактировать</a> <br><br>
+                        {% endif %}
+                    </div>
                 </div>
-            {% else %}
-                <p>Заявок пока нет.</p>
-            {% endif %}
-        </section>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>Заявок пока нет.</p>
+    {% endif %}
+</section>
+
     </main>
     
     <footer>

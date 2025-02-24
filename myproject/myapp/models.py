@@ -19,6 +19,7 @@ class Report(models.Model):
     description = models.TextField(verbose_name="Описание")
     category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, verbose_name="Категория")
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='new', verbose_name="Статус")
+    rejection_reason = models.TextField(blank=True, null=True, verbose_name="Причина отклонения") # Новое поле!
     photo = models.ImageField(upload_to='reports/', blank=True, null=True)
     resolved_photo = models.ImageField(upload_to='reports/resolved/', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)

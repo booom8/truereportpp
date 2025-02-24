@@ -6,6 +6,87 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Обновить заявку</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        .update-request {
+            background-color: #eaffea;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 500px;
+            margin: 20px auto;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .update-request h2 {
+            text-align: center;
+            color: #333;
+            font-size: 22px;
+        }
+
+        .update-request form p {
+            margin-bottom: 15px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            transition: border-color 0.3s ease-in-out;
+        }
+
+        .form-control:focus {
+            border-color: #4caf50;
+            outline: none;
+        }
+
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        select.form-control {
+            appearance: none;
+            background-color: #fff;
+            cursor: pointer;
+        }
+
+        input[type="file"] {
+            width: 100%;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background: #fff;
+            cursor: pointer;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #4caf50;
+            border: none;
+            color: white;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease-in-out;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>    
 </head>
 <body>
     <main>
@@ -13,10 +94,43 @@
             <h2>Обновить заявку</h2>
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                {{ form.as_p }}
+                
+                <label for="id_status">Статус:</label>
+                {{ form.status }}
+                
+                <div id="rejection_reason_container" style="display: none;">
+                    <label for="id_rejection_reason">Причина отклонения:</label>
+                    {{ form.rejection_reason }}
+                </div>
+            
+                <label for="id_resolved_photo">Фото после:</label>
+                {{ form.resolved_photo }}
+            
                 <button type="submit">Сохранить</button>
-            </form>
+            </form>              
         </section>
     </main>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let statusField = document.querySelector("#id_status"); // Поле выбора статуса
+            let reasonContainer = document.querySelector("#rejection_reason_container"); // Блок с причиной
+            let reasonField = document.querySelector("#id_rejection_reason"); // Само поле ввода
+    
+            function toggleReasonField() {
+                console.log("Статус изменён:", statusField.value); // Логируем статус
+                if (statusField.value === "rejected") {
+                    reasonContainer.style.display = "block"; // Показываем поле
+                    console.log("Поле причины отклонения Показано");
+                } else {
+                    reasonContainer.style.display = "none"; // Скрываем поле
+                    reasonField.value = reasonField.value || ""; 
+                    console.log("Поле причины отклонения Скрыто");
+                }
+            }
+    
+            statusField.addEventListener("change", toggleReasonField);
+            toggleReasonField(); // Вызываем при загрузке страницы
+        });
+    </script>
 </body>
 </html>

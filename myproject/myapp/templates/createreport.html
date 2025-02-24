@@ -94,11 +94,13 @@
                     {% for report in reports %}
                         <div class="request-card">
                             <div class="request-image">
-                                {% if report.photo %}
-                                    <img src="{{ report.photo.url }}" alt="Фото заявки">
-                                    {% if report.resolved_photo %}
-                                        <img src="{{ report.resolved_photo.url }}" alt="Фото после" class="resolved-photo">
+                                {% if report.resolved_photo %}
+                                    <img src="{{ report.resolved_photo.url }}" alt="Фото после">
+                                    {% if report.photo %}
+                                        <img src="{{ report.photo.url }}" alt="Фото до" class="resolved-photo">
                                     {% endif %}
+                                {% elif report.photo %}
+                                    <img src="{{ report.photo.url }}" alt="Фото заявки">
                                 {% else %}
                                     <p>Фотографии нет</p>
                                 {% endif %}
@@ -108,6 +110,9 @@
                                 <p><strong>Название:</strong> {{ report.title }}</p>
                                 <p><strong>Категория:</strong> {{ report.get_category_display }}</p>
                                 <p><strong>Статус:</strong> {{ report.get_status_display }}</p>
+                                {% if report.status == "rejected" %}
+                                    <p><strong>Причина отклонения:</strong> {{ report.rejection_reason }}</p>
+                                {% endif %}
                             </div>
                         </div>
                     {% endfor %}
@@ -115,7 +120,8 @@
             {% else %}
                 <p>Заявок пока нет.</p>
             {% endif %}
-        </section>        
+        </section>
+              
     </main>
     <footer>
         <p>Политика конфиденциальности</p>

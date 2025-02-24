@@ -42,11 +42,13 @@
                 {% for report in latest_reports %}
                     <div class="request-card">
                         <div class="request-image">
-                            {% if report.photo %}
-                                <img src="{{ report.photo.url }}" alt="Фото заявки">
-                                {% if report.resolved_photo %}
-                                    <img src="{{ report.resolved_photo.url }}" alt="Фото после" class="resolved-photo">
+                            {% if report.resolved_photo %}
+                                <img src="{{ report.resolved_photo.url }}" alt="Фото после">
+                                {% if report.photo %}
+                                    <img src="{{ report.photo.url }}" alt="Фото до" class="resolved-photo">
                                 {% endif %}
+                            {% elif report.photo %}
+                                <img src="{{ report.photo.url }}" alt="Фото заявки">
                             {% else %}
                                 <p>Фотография отсутствует</p>
                             {% endif %}
@@ -58,7 +60,6 @@
                 {% endfor %}
             </div>            
         </section>
-        
     
         <p class="total-requests">Количество решенных заявок: <span id="request-count">{{ total_reports }}</span></p>
     </main>

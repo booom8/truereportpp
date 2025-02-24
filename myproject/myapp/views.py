@@ -28,12 +28,18 @@ def report_view(request):
     if request.method == "POST":
         form = ReportForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
-            return redirect('createreport')  # После успешного добавления заявки перенаправляем
+            report = form.save(commit=False)  # Создаем объект, но пока не сохраняем
+            report.status = "new"  # Присваиваем статус вручную
+            report.save()  # Теперь сохраняем
+            return redirect('createreport')
+        else:
+            print(f"❌ Ошибки формы: {form.errors}")
+
     else:
         form = ReportForm()
-    
+
     return render(request, 'report.html', {'form': form})
+
 
 def register_view(request):
     if request.method == "POST":
@@ -90,21 +96,6 @@ def createreport(request):
     return render(request, 'createreport.html', {'reports': reports})
 
 
-def update_report(request, report_id):
-    report = get_object_or_404(Report, id=report_id)
-
-    if request.method == "POST":
-        form = ReportUpdateForm(request.POST, request.FILES, instance=report)
-        if form.is_valid():
-            form.save()
-            return redirect('createreport')  # Перенаправляем на страницу всех заявок
-
-    else:
-        form = ReportUpdateForm(instance=report)
-
-    return render(request, 'update_report.html', {'form': form, 'report': report})
-
-
 @login_required
 def personal_cabinet(request):
     reports = Report.objects.filter(user=request.user) if not request.user.is_staff else Report.objects.all()
@@ -112,6 +103,7 @@ def personal_cabinet(request):
 
 @login_required
 def update_report(request, report_id):
+    print(f"🔹 Обновление заявки {report_id}")  
     report = get_object_or_404(Report, id=report_id)
 
     # Проверяем, что только админ может редактировать заявки
@@ -120,15 +112,23 @@ def update_report(request, report_id):
         return redirect('lk')
 
     if request.method == "POST":
+        print(f"📥 Данные POST: {request.POST}")
+        print(f"📥 Данные FILES: {request.FILES}")
+
         form = ReportAdminForm(request.POST, request.FILES, instance=report)
         if form.is_valid():
+            print(f"✅ Данные перед сохранением: {form.cleaned_data}")
             form.save()
             messages.success(request, "Заявка успешно обновлена!")
             return redirect('lk')
+        else:
+            print(f"❌ Ошибки формы: {form.errors}")
+
     else:
         form = ReportAdminForm(instance=report)
 
     return render(request, 'update_report.html', {'form': form, 'report': report})
+
 
 @login_required
 def delete_report(request, report_id):
